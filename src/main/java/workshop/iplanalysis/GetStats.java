@@ -17,18 +17,10 @@ public class GetStats<E> {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(path));
 			ICSVBuilder<E> csvBuilder=CSVBuilder.createCSVBuilder();
-			setPlayerData(csvBuilder.getCSVList(reader,csvClass));
+			this.playerData=csvBuilder.getCSVList(reader,csvClass);
 		  } catch (IOException e) {
 			throw new CustomException(CustomException.ExceptionType.FILE_NOT_FOUND, "File not found!");
 		}		
-	}
-	
-	public List<E> getPlayerData() {
-		return playerData;
-	}
-
-	public void setPlayerData(List<E> playerData) {
-		this.playerData = playerData.stream().distinct().collect(Collectors.toList());
 	}
 
 	public int countPlayers()
@@ -82,13 +74,27 @@ public class GetStats<E> {
 	public String[] getMaximumSixesAndFours() {
 		Comparator comparator=Comparator.comparingInt(IPLBatsmenAnalyzer::getSixes).thenComparingInt(IPLBatsmenAnalyzer::getFours).reversed();
 		String[] maxmSixesAndFours=new String[5];
-		List<IPLBatsmenAnalyzer> sortedByAverage = (List<IPLBatsmenAnalyzer>)sortByCriteria(playerData,comparator);
+		List<IPLBatsmenAnalyzer> sortedBySRsConsideringSixesAndFours = (List<IPLBatsmenAnalyzer>)sortByCriteria(playerData,comparator);
 		int i=0;
-		for(IPLBatsmenAnalyzer batsman: sortedByAverage)
+		for(IPLBatsmenAnalyzer batsman: sortedBySRsConsideringSixesAndFours)
 		{
 			maxmSixesAndFours[i]=batsman.getName();
 			i++;
 		}
 		return maxmSixesAndFours;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String[] getBestStrikeRatesWithMaximumSixesAndFours() {
+		Comparator comparator=Comparator.comparingDouble(IPLBatsmenAnalyzer::getStrikeRate).thenComparingInt(IPLBatsmenAnalyzer::getSixes).thenComparingInt(IPLBatsmenAnalyzer::getFours).reversed();
+		String[] bestSRsWithMaxmSixesAndFours=new String[5];
+		List<IPLBatsmenAnalyzer> sortedBySRsConsideringSixesAndFours = (List<IPLBatsmenAnalyzer>)sortByCriteria(playerData,comparator);
+		int i=0;
+		for(IPLBatsmenAnalyzer batsman: sortedBySRsConsideringSixesAndFours)
+		{
+			bestSRsWithMaxmSixesAndFours[i]=batsman.getName();
+			i++;
+		}
+		return bestSRsWithMaxmSixesAndFours;
 	}
 }

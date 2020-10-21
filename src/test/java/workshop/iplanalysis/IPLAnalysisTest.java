@@ -37,10 +37,10 @@ public class IPLAnalysisTest {
 	}
 	
 	@Test
-	public void ReturnMaximumSixesAndFours() throws CustomException {
+	public void ReturnBestSRsWithMaximumSixesAndFours() throws CustomException {
 		GetStats<IPLBatsmenAnalyzer> batsmen= new GetStats<IPLBatsmenAnalyzer>(batsmenList,IPLBatsmenAnalyzer.class);
-		String[] maxmSixesAndFours=batsmen.getMaximumSixesAndFours();
-		String[] expected=new String[] {"Andre Russell","Chris Gayle","Hardik Pandya","Rishabh Pant","AB de Villiers"};
-		assertArrayEquals(expected,maxmSixesAndFours);
+		String[] bestSRsWithMaxmSixesAndFours=batsmen.getBestStrikeRatesWithMaximumSixesAndFours();
+		String[] expected=new String[] {"Ishant Sharma","Andre Russell","Shardul Thakur","Hardik Pandya","Stuart Binny"};
+		assertArrayEquals(expected,bestSRsWithMaxmSixesAndFours);
 	}
 }
