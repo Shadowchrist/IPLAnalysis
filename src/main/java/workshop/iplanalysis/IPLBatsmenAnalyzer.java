@@ -150,4 +150,22 @@ private static final long serialVersionUID = 1L;
 	public void setSixes(int sixes) {
 		this.sixes = sixes;
 	}
+
+	@Override
+	public String toString()
+	{
+		return ("Name: " + name 
+				+ "\n No. of Matches: " + matches 
+				+ "\n No. of Innings: " + innings 
+				+ "\n No. of NotOuts: " + notOuts  
+				+ "\n Total Runs " + runs  
+				+ "\n High Score: " + highScore
+				+ "\n Average: " + average
+				+ "\n BF: " + bf
+				+ "\n Strike Rate: " + strikeRate
+				+ "\n No. of Hundreds: " + hundreds
+				+ "\n No. of Fifties: " + fifties
+				+ "\n 4s hit: " + fours
+				+ "\n 6s hit: " + sixes);
+	}
 }

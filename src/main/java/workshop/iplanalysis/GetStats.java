@@ -36,11 +36,25 @@ public class GetStats<E> {
 		return playerData.size();
 	}
 	
+	public void displayData(List<E> list)
+	{
+		for(E player:list)
+		{
+			player.toString();
+		}
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<E> sortByCriteria(List<E> list, Comparator comparator)
+	{
+		return (List<E>) playerData.stream().sorted(comparator).limit(5).collect(Collectors.toList());
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public double[] getBestAverages() {
 		Comparator comparator=Comparator.comparingDouble(IPLBatsmenAnalyzer::getAverage).reversed();
 		double[] bestAverages=new double[5];
-		List<IPLBatsmenAnalyzer> sortedByAverage = (List<IPLBatsmenAnalyzer>)playerData.stream().sorted(comparator).limit(5).collect(Collectors.toList());
+		List<IPLBatsmenAnalyzer> sortedByAverage = (List<IPLBatsmenAnalyzer>) sortByCriteria(playerData,comparator);
 		int i=0;
 		for(IPLBatsmenAnalyzer batsman: sortedByAverage)
 		{
@@ -49,6 +63,32 @@ public class GetStats<E> {
 		}
 		return bestAverages;
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public double[] getBestStrikeRates() {
+		Comparator comparator=Comparator.comparingDouble(IPLBatsmenAnalyzer::getStrikeRate).reversed();
+		double[] bestStrikeRates=new double[5];
+		List<IPLBatsmenAnalyzer> sortedByStrikeRates = (List<IPLBatsmenAnalyzer>)sortByCriteria(playerData,comparator);
+		int i=0;
+		for(IPLBatsmenAnalyzer batsman: sortedByStrikeRates)
+		{
+			bestStrikeRates[i]=batsman.getStrikeRate();
+			i++;
+		}
+		return bestStrikeRates;
+	}
 	
-	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String[] getMaximumSixesAndFours() {
+		Comparator comparator=Comparator.comparingInt(IPLBatsmenAnalyzer::getSixes).thenComparingInt(IPLBatsmenAnalyzer::getFours).reversed();
+		String[] maxmSixesAndFours=new String[5];
+		List<IPLBatsmenAnalyzer> sortedByAverage = (List<IPLBatsmenAnalyzer>)sortByCriteria(playerData,comparator);
+		int i=0;
+		for(IPLBatsmenAnalyzer batsman: sortedByAverage)
+		{
+			maxmSixesAndFours[i]=batsman.getName();
+			i++;
+		}
+		return maxmSixesAndFours;
+	}
 }
