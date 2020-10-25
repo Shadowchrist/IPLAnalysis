@@ -179,11 +179,20 @@ public class GetStats {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <E> String[] getBestBowlingAveragesAndSRs() {
+	public <E> String[] getBestBowlingAveragesAndWickets() {
 		Comparator comparator = Comparator.comparingDouble(BowlerData::getAverage).thenComparingDouble(BowlerData::getStrikeRate);
 		String[] bestAveragesAndSR = new String[5];
 		List<BowlerData> sortedByAverageAndSR = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
 		bestAveragesAndSR = convertToPlayerStringArray((List<E>) sortedByAverageAndSR);
 		return bestAveragesAndSR;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] maxmWicketsWithAverage() {
+		Comparator comparator = Comparator.comparingInt(BowlerData::getWickets).reversed().thenComparingDouble(BowlerData::getAverage);
+		String[] bestWicketsWithAverages = new String[5];
+		List<BowlerData> sortedByAverage = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		bestWicketsWithAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
+		return bestWicketsWithAverages;
 	}
 }

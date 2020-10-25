@@ -108,8 +108,16 @@ public class IPLAnalysisTest {
 	@Test
 	public void ReturnBestBowlingAveragesAndStrikeRates() throws CustomException {
 		GetStats bowlers = new GetStats();
-		String[] bestBowlers = bowlers.getBestBowlingAveragesAndSRs();
+		String[] bestBowlers = bowlers.getBestBowlingAveragesAndWickets();
 		String[] expected = new String[] { "Shivam Dube", "Suresh Raina", "Yusuf Pathan", "Hanuma Vihari", "Basil Thampi" };
 		assertArrayEquals(expected, bestBowlers);
+	}
+	
+	@Test
+	public void ReturnMaxmWicketsWithAverage() throws CustomException {
+		GetStats bowlers = new GetStats();
+		String[] bestBowlingAverages = bowlers.maxmWicketsWithAverage();
+		String[] expected = new String[] { "Imran Tahir", "Kagiso Rabada", "Deepak Chahar", "Shreyas Gopal", "Khaleel Ahmed" };
+		assertArrayEquals(expected, bestBowlingAverages);
 	}
 }
