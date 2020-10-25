@@ -230,4 +230,14 @@ public class GetStats {
 		bestAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
 		return bestAverages;
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] getBestAveragesWithZeroHundreds() {
+		Comparator comparator = Comparator.comparingDouble(BatsmanData::getAverage).reversed();
+		String[] bestAverages = new String[5];
+		List<BatsmanData> zeroHundreds = (List<BatsmanData>) batsmenData.stream().filter((p)->p.getHundreds()==0 && p.getFifties()==0).collect(Collectors.toList());
+		List<BatsmanData>sortedByAverage = sortByCriteria(zeroHundreds, comparator, 5);
+		bestAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
+		return bestAverages;
+	}
 }
