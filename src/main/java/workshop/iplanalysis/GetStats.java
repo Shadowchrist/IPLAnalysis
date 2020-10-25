@@ -177,4 +177,13 @@ public class GetStats {
 		bestWicketsAndStrikeRates = convertToPlayerStringArray((List<E>) sortedByWicketsAndStrikeRates);
 		return bestWicketsAndStrikeRates;
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] getBestBowlingAveragesAndSRs() {
+		Comparator comparator = Comparator.comparingDouble(BowlerData::getAverage).thenComparingDouble(BowlerData::getStrikeRate);
+		String[] bestAveragesAndSR = new String[5];
+		List<BowlerData> sortedByAverageAndSR = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		bestAveragesAndSR = convertToPlayerStringArray((List<E>) sortedByAverageAndSR);
+		return bestAveragesAndSR;
+	}
 }
