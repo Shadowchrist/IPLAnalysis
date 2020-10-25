@@ -159,4 +159,13 @@ public class GetStats {
 		bestStrikeRates = convertToPlayerStringArray((List<E>) sortedByStrikeRates);
 		return bestStrikeRates;
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] getBestBowlingEconomy() {
+		Comparator comparator = Comparator.comparingDouble(BowlerData::getEconomy);
+		String[] bestStrikeRates = new String[5];
+		List<BowlerData> sortedByStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		bestStrikeRates = convertToPlayerStringArray((List<E>) sortedByStrikeRates);
+		return bestStrikeRates;
+	}
 }

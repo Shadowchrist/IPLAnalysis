@@ -80,4 +80,20 @@ public class IPLAnalysisTest {
 		String[] expected = new String[] { "Shivam Dube", "Suresh Raina", "Yusuf Pathan", "Hanuma Vihari", "Basil Thampi" };
 		assertArrayEquals(expected, bestBowlingAverages);
 	}
+	
+	@Test
+	public void ReturnBestBowlingStrikeRates() throws CustomException {
+		GetStats bowlers = new GetStats();
+		String[] bestStrikeRates = bowlers.getBestBowlingStrikeRates();
+		String[] expected = new String[] { "Shivam Dube", "Suresh Raina", "Yusuf Pathan","Hanuma Vihari", "Basil Thampi" };
+		assertArrayEquals(expected, bestStrikeRates);
+	}
+	
+	@Test
+	public void ReturnBestBowlingEconomy() throws CustomException {
+		GetStats bowlers = new GetStats();
+		String[] bestEconomy = bowlers.getBestBowlingEconomy();
+		String[] expected = new String[] { "Shivam Dube", "Anukul Roy", "Suresh Raina","Stuart Binny", "Ravindra Jadeja" };
+		assertArrayEquals(expected, bestEconomy);
+	}
 }
