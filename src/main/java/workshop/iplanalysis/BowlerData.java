@@ -8,40 +8,40 @@ public class BowlerData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@CsvBindByName(column = "PLAYER", required = true)
-	public String name;
+	private String name;
 
 	@CsvBindByName(column = "Mat", required = true)
-	public int matches;
+	private int matches;
 
 	@CsvBindByName(column = "Inns", required = true)
-	public int innings;
+	private int innings;
 
 	@CsvBindByName(column = "Ov", required = true)
-	public double overs;
+	private double overs;
 
 	@CsvBindByName(column = "Runs", required = true)
-	public int runs;
+	private int runs;
 
 	@CsvBindByName(column = "Wkts", required = true)
-	public int wickets;
+	private int wickets;
 
 	@CsvBindByName(column = "BBI", required = true)
-	public double bbi;
+	private double bbi;
 
 	@CsvBindByName(column = "Avg", required = true)
-	public double average;
+	private double average;
 
 	@CsvBindByName(column = "SR", required = true)
-	public double strikeRate;
+	private double strikeRate;
 
 	@CsvBindByName(column = "Econ", required = true)
-	public double economy;
+	private double economy;
 
 	@CsvBindByName(column = "4w", required = true)
-	public int fourWickets;
+	private int fourWickets;
 
 	@CsvBindByName(column = "5w", required = true)
-	public int fiveWickets;
+	private int fiveWickets;
 
 	public String getName() {
 		return name;

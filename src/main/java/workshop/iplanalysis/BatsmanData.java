@@ -9,43 +9,43 @@ public class BatsmanData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@CsvBindByName(column = "PLAYER", required = true)
-	public String name;
+	private String name;
 
 	@CsvBindByName(column = "Mat", required = true)
-	public int matches;
+	private int matches;
 
 	@CsvBindByName(column = "Inns", required = true)
-	public int innings;
+	private int innings;
 
 	@CsvBindByName(column = "NO", required = true)
-	public int notOuts;
+	private int notOuts;
 
 	@CsvBindByName(column = "Runs", required = true)
-	public int runs;
+	private int runs;
 
 	@CsvBindByName(column = "HS", required = true)
-	public String highScore;
+	private String highScore;
 
 	@CsvBindByName(column = "Avg", required = true)
-	public double average;
+	private double average;
 
 	@CsvBindByName(column = "BF", required = true)
-	public int ballsFaced;
+	private int ballsFaced;
 
 	@CsvBindByName(column = "SR", required = true)
-	public double strikeRate;
+	private double strikeRate;
 
 	@CsvBindByName(column = "100", required = true)
-	public int hundreds;
+	private int hundreds;
 
 	@CsvBindByName(column = "50", required = true)
-	public int fifties;
+	private int fifties;
 
 	@CsvBindByName(column = "4s", required = true)
-	public int fours;
+	private int fours;
 
 	@CsvBindByName(column = "6s", required = true)
-	public int sixes;
+	private int sixes;
 
 	public String getName() {
 		return name;
