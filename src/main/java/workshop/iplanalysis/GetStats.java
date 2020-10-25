@@ -168,4 +168,13 @@ public class GetStats {
 		bestStrikeRates = convertToPlayerStringArray((List<E>) sortedByStrikeRates);
 		return bestStrikeRates;
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] getBestBowlingStrikeRatesWithWickets() {
+		Comparator comparator = Comparator.comparingInt(BowlerData::getFiveWickets).thenComparingInt(BowlerData::getFourWickets).reversed().thenComparingDouble(BowlerData::getStrikeRate);
+		String[] bestWicketsAndStrikeRates = new String[5];
+		List<BowlerData> sortedByWicketsAndStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		bestWicketsAndStrikeRates = convertToPlayerStringArray((List<E>) sortedByWicketsAndStrikeRates);
+		return bestWicketsAndStrikeRates;
+	}
 }

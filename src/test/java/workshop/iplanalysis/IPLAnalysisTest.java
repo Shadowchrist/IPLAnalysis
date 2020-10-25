@@ -96,4 +96,12 @@ public class IPLAnalysisTest {
 		String[] expected = new String[] { "Shivam Dube", "Anukul Roy", "Suresh Raina","Stuart Binny", "Ravindra Jadeja" };
 		assertArrayEquals(expected, bestEconomy);
 	}
+	
+	@Test
+	public void ReturnBestBowlingWicketTakersWithStrikeRates() throws CustomException {
+		GetStats bowlers = new GetStats();
+		String[] bestBowlers = bowlers.getBestBowlingStrikeRatesWithWickets();
+		String[] expected = new String[] { "Alzarri Joseph", "Kagiso Rabada", "Imran Tahir","Lasith Malinga", "Yuzvendra Chahal" };
+		assertArrayEquals(expected, bestBowlers);
+	}
 }
