@@ -128,4 +128,12 @@ public class IPLAnalysisTest {
 		String[] expected = new String[] { "Andre Russell", "Marcus Stoinis", "Hardik Pandya", "Mandeep Singh", "Ravindra Jadeja" };
 		assertArrayEquals(expected, bestAverages);
 	}
+	
+	@Test
+	public void ReturnBestAllRounders() throws CustomException {
+		GetStats players = new GetStats();
+		String[] bestAllRounders = players.getBestAllRounders();
+		String[] expected = new String[] { "Andre Russell", "Hardik Pandya", "Suresh Raina", "Nitish Rana", "Vijay Shankar" };
+		assertArrayEquals(expected, bestAllRounders);
+	}
 }

@@ -209,4 +209,16 @@ public class GetStats {
 		bestAverages = convertToPlayerStringArray(sortedByAverage);
 		return bestAverages;
 	}
+
+	@SuppressWarnings("rawtypes")
+	public <E> String[] getBestAllRounders() {
+		String[] bestAllRounders = new String[5];
+		Comparator batsmenCompare = Comparator.comparingInt(BatsmanData::getRuns).reversed();
+		Comparator bowlerCompare = Comparator.comparingInt(BowlerData::getWickets).reversed();
+		List<String> battingAverage = sortByCriteria(batsmenData, batsmenCompare, 100).stream().map(BatsmanData::toString).collect(Collectors.toList());
+		List<String> bowlingAverage = sortByCriteria(bowlersData, bowlerCompare, 99).stream().map(BowlerData::toString).collect(Collectors.toList());
+		List<String> sortedByAverage = battingAverage.stream().filter(bowlingAverage::contains).collect(Collectors.toList()); 
+		bestAllRounders = convertToPlayerStringArray(sortedByAverage);
+		return bestAllRounders;
+	}
 }
