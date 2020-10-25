@@ -221,4 +221,13 @@ public class GetStats {
 		bestAllRounders = convertToPlayerStringArray(sortedByAverage);
 		return bestAllRounders;
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] getBestAveragesWithMaxmHundreds() {
+		Comparator comparator = Comparator.comparingInt(BatsmanData::getHundreds).thenComparingDouble(BatsmanData::getAverage).reversed();
+		String[] bestAverages = new String[5];
+		List<BatsmanData> sortedByAverage = (List<BatsmanData>) sortByCriteria(batsmenData, comparator, 5);
+		bestAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
+		return bestAverages;
+	}
 }
