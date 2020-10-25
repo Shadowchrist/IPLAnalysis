@@ -62,14 +62,16 @@ public class GetStats {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <E> List<E> sortByCriteria(List<E> list, Comparator comparator) {
-		return (List<E>) list.stream().sorted(comparator).limit(5).collect(Collectors.toList());
+	public <E> List<E> sortByCriteria(List<E> list, Comparator comparator, int limit) {
+		return (List<E>) list.stream().sorted(comparator).limit(limit).collect(Collectors.toList());
 	}
 
 	public <E> String[] convertToPlayerStringArray(List<E> list) {
 		String[] reqdPlayers = new String[5];
 		int i = 0;
 		for (E player : list) {
+			if(i==5)
+				break;
 			reqdPlayers[i] = player.toString();
 			i++;
 		}
@@ -80,7 +82,7 @@ public class GetStats {
 	public <E> String[] getBestAverages() {
 		Comparator comparator = Comparator.comparingDouble(BatsmanData::getAverage).reversed();
 		String[] bestAverages = new String[5];
-		List<BatsmanData> sortedByAverage = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
+		List<BatsmanData> sortedByAverage = (List<BatsmanData>) sortByCriteria(batsmenData, comparator, 5);
 		bestAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
 		return bestAverages;
 	}
@@ -89,7 +91,7 @@ public class GetStats {
 	public <E> String[] getBestStrikeRates() {
 		Comparator comparator = Comparator.comparingDouble(BatsmanData::getStrikeRate).reversed();
 		String[] bestStrikeRates = new String[5];
-		List<BatsmanData> sortedByStrikeRates = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
+		List<BatsmanData> sortedByStrikeRates = (List<BatsmanData>) sortByCriteria(batsmenData, comparator, 5);
 		bestStrikeRates = convertToPlayerStringArray((List<E>) sortedByStrikeRates);
 		return bestStrikeRates;
 	}
@@ -100,7 +102,7 @@ public class GetStats {
 				.reversed();
 
 		List<BatsmanData> sortedBySRsConsideringSixesAndFours = (List<BatsmanData>) sortByCriteria(batsmenData,
-				comparator);
+				comparator, 5);
 		String[] maxmSixesAndFours = new String[5];
 		maxmSixesAndFours = convertToPlayerStringArray((List<E>) sortedBySRsConsideringSixesAndFours);
 		return maxmSixesAndFours;
@@ -113,7 +115,7 @@ public class GetStats {
 				.thenComparingInt(BatsmanData::getFours).reversed();
 
 		List<BatsmanData> sortedBySRsConsideringSixesAndFours = (List<BatsmanData>) sortByCriteria(batsmenData,
-				comparator);
+				comparator, 5);
 		String[] bestSRsWithMaxmSixesAndFours = new String[5];
 		bestSRsWithMaxmSixesAndFours = convertToPlayerStringArray((List<E>) sortedBySRsConsideringSixesAndFours);
 		return bestSRsWithMaxmSixesAndFours;
@@ -125,7 +127,7 @@ public class GetStats {
 				.thenComparingDouble(BatsmanData::getAverage).thenComparingDouble(BatsmanData::getStrikeRate)
 				.reversed();
 
-		List<BatsmanData> sortedByAveragesWithGreatSRs = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
+		List<BatsmanData> sortedByAveragesWithGreatSRs = (List<BatsmanData>) sortByCriteria(batsmenData, comparator, 5);
 		String[] bestAveragesWithGreatSRs = new String[5];
 		bestAveragesWithGreatSRs = convertToPlayerStringArray((List<E>) sortedByAveragesWithGreatSRs);
 		return bestAveragesWithGreatSRs;
@@ -136,7 +138,7 @@ public class GetStats {
 		Comparator comparator = Comparator.comparing(BatsmanData::getMatches).thenComparingInt(BatsmanData::getRuns)
 				.thenComparingDouble(BatsmanData::getAverage).reversed();
 
-		List<BatsmanData> sortedByRunsWithBestAverages = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
+		List<BatsmanData> sortedByRunsWithBestAverages = (List<BatsmanData>) sortByCriteria(batsmenData, comparator, 5);
 		String[] maxmRunsWithBestAverages = new String[5];
 		maxmRunsWithBestAverages = convertToPlayerStringArray((List<E>) sortedByRunsWithBestAverages);
 		return maxmRunsWithBestAverages;
@@ -146,7 +148,7 @@ public class GetStats {
 	public <E> String[] getBestBowlingAverages() {
 		Comparator comparator = Comparator.comparingDouble(BowlerData::getAverage);
 		String[] bestAverages = new String[5];
-		List<BowlerData> sortedByAverage = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		List<BowlerData> sortedByAverage = (List<BowlerData>) sortByCriteria(bowlersData, comparator, 5);
 		bestAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
 		return bestAverages;
 	}
@@ -155,7 +157,7 @@ public class GetStats {
 	public <E> String[] getBestBowlingStrikeRates() {
 		Comparator comparator = Comparator.comparingDouble(BowlerData::getStrikeRate);
 		String[] bestStrikeRates = new String[5];
-		List<BowlerData> sortedByStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		List<BowlerData> sortedByStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator, 5);
 		bestStrikeRates = convertToPlayerStringArray((List<E>) sortedByStrikeRates);
 		return bestStrikeRates;
 	}
@@ -164,7 +166,7 @@ public class GetStats {
 	public <E> String[] getBestBowlingEconomy() {
 		Comparator comparator = Comparator.comparingDouble(BowlerData::getEconomy);
 		String[] bestStrikeRates = new String[5];
-		List<BowlerData> sortedByStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		List<BowlerData> sortedByStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator, 5);
 		bestStrikeRates = convertToPlayerStringArray((List<E>) sortedByStrikeRates);
 		return bestStrikeRates;
 	}
@@ -173,7 +175,7 @@ public class GetStats {
 	public <E> String[] getBestBowlingStrikeRatesWithWickets() {
 		Comparator comparator = Comparator.comparingInt(BowlerData::getFiveWickets).thenComparingInt(BowlerData::getFourWickets).reversed().thenComparingDouble(BowlerData::getStrikeRate);
 		String[] bestWicketsAndStrikeRates = new String[5];
-		List<BowlerData> sortedByWicketsAndStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		List<BowlerData> sortedByWicketsAndStrikeRates = (List<BowlerData>) sortByCriteria(bowlersData, comparator, 5);
 		bestWicketsAndStrikeRates = convertToPlayerStringArray((List<E>) sortedByWicketsAndStrikeRates);
 		return bestWicketsAndStrikeRates;
 	}
@@ -182,7 +184,7 @@ public class GetStats {
 	public <E> String[] getBestBowlingAveragesAndWickets() {
 		Comparator comparator = Comparator.comparingDouble(BowlerData::getAverage).thenComparingDouble(BowlerData::getStrikeRate);
 		String[] bestAveragesAndSR = new String[5];
-		List<BowlerData> sortedByAverageAndSR = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		List<BowlerData> sortedByAverageAndSR = (List<BowlerData>) sortByCriteria(bowlersData, comparator, 5);
 		bestAveragesAndSR = convertToPlayerStringArray((List<E>) sortedByAverageAndSR);
 		return bestAveragesAndSR;
 	}
@@ -191,8 +193,20 @@ public class GetStats {
 	public <E> String[] maxmWicketsWithAverage() {
 		Comparator comparator = Comparator.comparingInt(BowlerData::getWickets).reversed().thenComparingDouble(BowlerData::getAverage);
 		String[] bestWicketsWithAverages = new String[5];
-		List<BowlerData> sortedByAverage = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		List<BowlerData> sortedByAverage = (List<BowlerData>) sortByCriteria(bowlersData, comparator, 5);
 		bestWicketsWithAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
 		return bestWicketsWithAverages;
+	}
+
+	@SuppressWarnings({ "rawtypes" })
+	public <E> String[] getBestBattingAndBowlingAverages() {
+		String[] bestAverages = new String[5];
+		Comparator batsmenCompare = Comparator.comparingDouble(BatsmanData::getAverage).reversed();
+		Comparator bowlerCompare = Comparator.comparingDouble(BowlerData::getAverage);
+		List<String> battingAverage = sortByCriteria(batsmenData, batsmenCompare, 100).stream().map(BatsmanData::toString).collect(Collectors.toList());
+		List<String> bowlingAverage = sortByCriteria(bowlersData, bowlerCompare, 99).stream().map(BowlerData::toString).collect(Collectors.toList());
+		List<String> sortedByAverage = battingAverage.stream().filter(bowlingAverage::contains).collect(Collectors.toList()); 
+		bestAverages = convertToPlayerStringArray(sortedByAverage);
+		return bestAverages;
 	}
 }
