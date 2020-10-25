@@ -8,36 +8,65 @@ import java.util.*;
 import java.util.stream.*;
 import csvutility.*;
 
-public class GetStats<E> {
+public class GetStats {
 
-	public List<E> playerData = new ArrayList<E>();
+	private List<BatsmanData> batsmenData = new ArrayList<BatsmanData>();
+	private List<BowlerData> bowlersData = new ArrayList<BowlerData>();
 
-	public GetStats(String path, Class<E> csvClass) throws CustomException {
+	public GetStats() throws CustomException
+	{
+		this.batsmenData=GetPlayerStats("C:\\Users\\DELL\\Desktop\\Practice\\Eclipse\\JAVA\\workshop.iplanalysis\\src\\main\\resources\\BatsmenDataList.csv");
+		this.bowlersData=GetPlayerStats("C:\\Users\\DELL\\Desktop\\Practice\\Eclipse\\JAVA\\workshop.iplanalysis\\src\\main\\resources\\BowlersDataList.csv");
+	}
+	
+	public List<BatsmanData> getBatsmenData() {
+		return batsmenData;
+	}
+
+	public void setBatsmenData(List<BatsmanData> batsmenData) {
+		this.batsmenData = batsmenData;
+	}
+
+	public List<BowlerData> getBowlersData() {
+		return bowlersData;
+	}
+
+	public void setBowlersData(List<BowlerData> bowlersData) {
+		this.bowlersData = bowlersData;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <E> List<E> GetPlayerStats(String path) throws CustomException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(path));
 			ICSVBuilder<E> csvBuilder = CSVBuilder.createCSVBuilder();
-			this.playerData = csvBuilder.getCSVList(reader, csvClass);
+			if(path.endsWith("BatsmenDataList.csv"))
+				return csvBuilder.getCSVList(reader,(Class<E>) BatsmanData.class);
+			else if(path.endsWith("BowlersDataList.csv"))
+				return csvBuilder.getCSVList(reader,(Class<E>) BowlerData.class);
+			else 
+				throw new CustomException(CustomException.ExceptionType.INCORRECT_TYPE, "Incorrect File Type!");
 		} catch (IOException e) {
 			throw new CustomException(CustomException.ExceptionType.FILE_NOT_FOUND, "File not found!");
 		}
 	}
 
-	public int countPlayers() {
-		return playerData.size();
+	public <E> int countPlayers(List<E> list) {
+		return list.size();
 	}
 
-	public void displayData(List<E> list) {
+	public <E> void displayData(List<E> list) {
 		for (E player : list) {
 			player.toString();
 		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<E> sortByCriteria(List<E> list, Comparator comparator) {
-		return (List<E>) playerData.stream().sorted(comparator).limit(5).collect(Collectors.toList());
+	public <E> List<E> sortByCriteria(List<E> list, Comparator comparator) {
+		return (List<E>) list.stream().sorted(comparator).limit(5).collect(Collectors.toList());
 	}
 
-	public String[] convertToBatsmenStringArray(List<E> list) {
+	public <E> String[] convertToPlayerStringArray(List<E> list) {
 		String[] reqdPlayers = new String[5];
 		int i = 0;
 		for (E player : list) {
@@ -47,77 +76,78 @@ public class GetStats<E> {
 		return reqdPlayers;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public double[] getBestAverages() {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] getBestAverages() {
 		Comparator comparator = Comparator.comparingDouble(BatsmanData::getAverage).reversed();
-		double[] bestAverages = new double[5];
-		List<BatsmanData> sortedByAverage = (List<BatsmanData>) sortByCriteria(playerData, comparator);
-		int i = 0;
-		for (BatsmanData batsman : sortedByAverage) {
-			bestAverages[i] = batsman.getAverage();
-			i++;
-		}
+		String[] bestAverages = new String[5];
+		List<BatsmanData> sortedByAverage = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
+		bestAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
 		return bestAverages;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public double[] getBestStrikeRates() {
+	public <E> String[] getBestStrikeRates() {
 		Comparator comparator = Comparator.comparingDouble(BatsmanData::getStrikeRate).reversed();
-		double[] bestStrikeRates = new double[5];
-		List<BatsmanData> sortedByStrikeRates = (List<BatsmanData>) sortByCriteria(playerData, comparator);
-		int i = 0;
-		for (BatsmanData batsman : sortedByStrikeRates) {
-			bestStrikeRates[i] = batsman.getStrikeRate();
-			i++;
-		}
+		String[] bestStrikeRates = new String[5];
+		List<BatsmanData> sortedByStrikeRates = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
+		bestStrikeRates = convertToPlayerStringArray((List<E>) sortedByStrikeRates);
 		return bestStrikeRates;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String[] getMaximumSixesAndFours() {
+	public <E> String[] getMaximumSixesAndFours() {
 		Comparator comparator = Comparator.comparingInt(BatsmanData::getSixes).thenComparingInt(BatsmanData::getFours)
 				.reversed();
 
-		List<BatsmanData> sortedBySRsConsideringSixesAndFours = (List<BatsmanData>) sortByCriteria(playerData,
+		List<BatsmanData> sortedBySRsConsideringSixesAndFours = (List<BatsmanData>) sortByCriteria(batsmenData,
 				comparator);
 		String[] maxmSixesAndFours = new String[5];
-		maxmSixesAndFours = convertToBatsmenStringArray((List<E>) sortedBySRsConsideringSixesAndFours);
+		maxmSixesAndFours = convertToPlayerStringArray((List<E>) sortedBySRsConsideringSixesAndFours);
 		return maxmSixesAndFours;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String[] getBestStrikeRatesWithMaximumSixesAndFours() {
+	public <E> String[] getBestStrikeRatesWithMaximumSixesAndFours() {
 		Comparator comparator = Comparator.comparing(BatsmanData::getBallsFaced)
 				.thenComparingDouble(BatsmanData::getStrikeRate).thenComparingInt(BatsmanData::getSixes)
 				.thenComparingInt(BatsmanData::getFours).reversed();
 
-		List<BatsmanData> sortedBySRsConsideringSixesAndFours = (List<BatsmanData>) sortByCriteria(playerData,
+		List<BatsmanData> sortedBySRsConsideringSixesAndFours = (List<BatsmanData>) sortByCriteria(batsmenData,
 				comparator);
 		String[] bestSRsWithMaxmSixesAndFours = new String[5];
-		bestSRsWithMaxmSixesAndFours = convertToBatsmenStringArray((List<E>) sortedBySRsConsideringSixesAndFours);
+		bestSRsWithMaxmSixesAndFours = convertToPlayerStringArray((List<E>) sortedBySRsConsideringSixesAndFours);
 		return bestSRsWithMaxmSixesAndFours;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public String[] getBestAveragesWithGreatSRs() {
+	public <E> String[] getBestAveragesWithGreatSRs() {
 		Comparator comparator = Comparator.comparing(BatsmanData::getMatches)
 				.thenComparingDouble(BatsmanData::getAverage).thenComparingDouble(BatsmanData::getStrikeRate)
 				.reversed();
 
-		List<BatsmanData> sortedByAveragesWithGreatSRs = (List<BatsmanData>) sortByCriteria(playerData, comparator);
+		List<BatsmanData> sortedByAveragesWithGreatSRs = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
 		String[] bestAveragesWithGreatSRs = new String[5];
-		bestAveragesWithGreatSRs = convertToBatsmenStringArray((List<E>) sortedByAveragesWithGreatSRs);
+		bestAveragesWithGreatSRs = convertToPlayerStringArray((List<E>) sortedByAveragesWithGreatSRs);
 		return bestAveragesWithGreatSRs;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public String[] getMaxmRunsWithBestAverages() {
+	public <E> String[] getMaxmRunsWithBestAverages() {
 		Comparator comparator = Comparator.comparing(BatsmanData::getMatches).thenComparingInt(BatsmanData::getRuns)
 				.thenComparingDouble(BatsmanData::getAverage).reversed();
 
-		List<BatsmanData> sortedByRunsWithBestAverages = (List<BatsmanData>) sortByCriteria(playerData, comparator);
+		List<BatsmanData> sortedByRunsWithBestAverages = (List<BatsmanData>) sortByCriteria(batsmenData, comparator);
 		String[] maxmRunsWithBestAverages = new String[5];
-		maxmRunsWithBestAverages = convertToBatsmenStringArray((List<E>) sortedByRunsWithBestAverages);
+		maxmRunsWithBestAverages = convertToPlayerStringArray((List<E>) sortedByRunsWithBestAverages);
 		return maxmRunsWithBestAverages;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <E> String[] getBestBowlingAverages() {
+		Comparator comparator = Comparator.comparingDouble(BowlerData::getAverage);
+		String[] bestAverages = new String[5];
+		List<BowlerData> sortedByAverage = (List<BowlerData>) sortByCriteria(bowlersData, comparator);
+		bestAverages = convertToPlayerStringArray((List<E>) sortedByAverage);
+		return bestAverages;
 	}
 }

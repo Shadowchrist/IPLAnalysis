@@ -5,9 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import com.workshop.iplanalysis.GetStats;
-import com.workshop.iplanalysis.BatsmanData;
-import com.workshop.iplanalysis.BowlerData;
-
 import csvutility.CustomException;
 
 public class IPLAnalysisTest {
@@ -17,33 +14,32 @@ public class IPLAnalysisTest {
 
 	@Test
 	public void ReturnNumberOfPlayer() throws CustomException {
-		GetStats<BatsmanData> stats1 = new GetStats<BatsmanData>(batsmenList, BatsmanData.class);
-		int result1 = stats1.countPlayers();
+		GetStats stats = new GetStats();
+		int result1 = stats.countPlayers(stats.getBatsmenData());
 		assertEquals(100, result1);
-		GetStats<BowlerData> stats2 = new GetStats<BowlerData>(bowlersList, BowlerData.class);
-		int result2 = stats2.countPlayers();
+		int result2 = stats.countPlayers(stats.getBowlersData());
 		assertEquals(99, result2);
 	}
 
 	@Test
 	public void ReturnBestBattingAverage() throws CustomException {
-		GetStats<BatsmanData> batsmen = new GetStats<BatsmanData>(batsmenList, BatsmanData.class);
-		double[] bestAverages = batsmen.getBestAverages();
-		double[] expected = new double[] { 83.2, 69.2, 56.66, 55.62, 53.9 };
-		assertArrayEquals(expected, bestAverages, 0.0);
+		GetStats batsmen = new GetStats();
+		String[] bestAverages = batsmen.getBestAverages();
+		String[] expected = new String[] { "MS Dhoni", "David Warner ", "Andre Russell", "Jonny Bairstow", "KL Rahul" };
+		assertArrayEquals(expected, bestAverages);
 	}
 
 	@Test
 	public void ReturnBestStrikeRates() throws CustomException {
-		GetStats<BatsmanData> batsmen = new GetStats<BatsmanData>(batsmenList, BatsmanData.class);
-		double[] bestStrikeRates = batsmen.getBestStrikeRates();
-		double[] expected = new double[] { 333.33, 204.81, 200, 191.42, 175 };
-		assertArrayEquals(expected, bestStrikeRates, 0.0);
+		GetStats batsmen = new GetStats();
+		String[] bestStrikeRates = batsmen.getBestStrikeRates();
+		String[] expected = new String[] { "Ishant Sharma", "Andre Russell", "Shardul Thakur","Hardik Pandya", "Stuart Binny" };
+		assertArrayEquals(expected, bestStrikeRates);
 	}
 
 	@Test
 	public void ReturnMaximumSixesAndFours() throws CustomException {
-		GetStats<BatsmanData> batsmen = new GetStats<BatsmanData>(batsmenList, BatsmanData.class);
+		GetStats batsmen = new GetStats();
 		String[] maxmSixesAndFours = batsmen.getMaximumSixesAndFours();
 		String[] expected = new String[] { "Andre Russell", "Chris Gayle", "Hardik Pandya", "Rishabh Pant",
 				"AB de Villiers" };
@@ -52,7 +48,7 @@ public class IPLAnalysisTest {
 	
 	@Test
 	public void ReturnBestSRsWithMaximumSixesAndFours() throws CustomException {
-		GetStats<BatsmanData> batsmen = new GetStats<BatsmanData>(batsmenList, BatsmanData.class);
+		GetStats batsmen = new GetStats();
 		String[] bestSRsWithMaxmSixesAndFours = batsmen.getBestStrikeRatesWithMaximumSixesAndFours();
 		String[] expected = new String[] { "David Warner ", "KL Rahul", "Quinton de Kock", "Shreyas Iyer",
 				"Shikhar Dhawan" };
@@ -61,7 +57,7 @@ public class IPLAnalysisTest {
 	
 	@Test
 	public void ReturnBestAveragesWithGreatSRs() throws CustomException {
-		GetStats<BatsmanData> batsmen = new GetStats<BatsmanData>(batsmenList, BatsmanData.class);
+		GetStats batsmen = new GetStats();
 		String[] getBestAveragesWithGreatSRs = batsmen.getBestAveragesWithGreatSRs();
 		String[] expected = new String[] { "Suresh Raina", "Ambati Rayudu", "Shane Watson", "Hardik Pandya",
 				"Rishabh Pant" };
@@ -70,10 +66,18 @@ public class IPLAnalysisTest {
 	
 	@Test
 	public void ReturnMaxmRunsWithBestAverages() throws CustomException {
-		GetStats<BatsmanData> batsmen = new GetStats<BatsmanData>(batsmenList, BatsmanData.class);
+		GetStats batsmen = new GetStats();
 		String[] getBestAveragesWithGreatSRs = batsmen.getMaxmRunsWithBestAverages();
 		String[] expected = new String[] { "Shane Watson", "Suresh Raina", "Ambati Rayudu", "Quinton de Kock",
 				"Shikhar Dhawan" };
 		assertArrayEquals(expected, getBestAveragesWithGreatSRs);
-	}	
+	}
+	
+	@Test
+	public void ReturnBestBowlingAverage() throws CustomException {
+		GetStats bowlers = new GetStats();
+		String[] bestBowlingAverages = bowlers.getBestBowlingAverages();
+		String[] expected = new String[] { "Shivam Dube", "Suresh Raina", "Yusuf Pathan", "Hanuma Vihari", "Basil Thampi" };
+		assertArrayEquals(expected, bestBowlingAverages);
+	}
 }
